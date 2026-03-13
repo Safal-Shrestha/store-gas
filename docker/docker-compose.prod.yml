@@ -4,7 +4,7 @@ services:
     container_name: store-gas-db
     restart: unless-stopped
     env_file:
-      - .env
+      - ../.env
     ports:
       - "4321:5432"
     volumes:
