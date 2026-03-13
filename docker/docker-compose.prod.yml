@@ -24,6 +24,6 @@ services:
   frontend:
     build: ../frontend
     container_name: store-gas-client
-    restart: unless_stopped
+    restart: unless-stopped
     ports:
       - "5173:5173"
