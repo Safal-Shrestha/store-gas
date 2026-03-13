@@ -13,9 +13,13 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Stop containers
-        run: docker compose --env-file .env -f docker/docker-compose.prod.yml down -v
+      - name: Sync repo to app folder
+        run: rsync -av --delete ./ /home/safal/store-gas/
       
       - name: Build and run containers
-        run: docker compose --env-file .env -f docker/docker-compose.prod.yml up -d --build
+        run: |
+          docker compose \
+            --env-file /home/safal/store-gas/.env \
+            -f /home/safal/store-gas/docker/docker-compose.prod.yml \
+            up -d --build --remove-orphans
 
