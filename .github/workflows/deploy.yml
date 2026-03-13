@@ -24,7 +24,8 @@ jobs:
       
       - name: Build and run containers safely
         run: |
+          cd /home/safal/store/store-gas
           docker compose \
-            --env-file /home/safal/store/store-gas/.env \
-            -f /home/safal/store/store-gas/docker/docker-compose.prod.yml \
+            --env-file .env \
+            -f docker/docker-compose.prod.yml \
             up -d --build --remove-orphans
