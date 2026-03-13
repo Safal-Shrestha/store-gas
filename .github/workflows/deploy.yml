@@ -13,8 +13,11 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Sync repo to app folder
-        run: rsync -av --delete ./ /home/safal/store/store-gas/
+      - name: Sync repo safely
+        run: rsync -av \
+            --exclude='.env' \
+            --exclude='db-data' \
+            ./ /home/safal/store-gas/
       
       - name: Build and run containers
         run: |
