@@ -14,12 +14,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Sync repo to app folder
-        run: rsync -av --delete ./ /home/safal/store-gas/
+        run: rsync -av --delete ./ /home/safal/store/store-gas/
       
       - name: Build and run containers
         run: |
           docker compose \
-            --env-file /home/safal/store-gas/.env \
+            --env-file /home/safal/store/store-gas/.env \
             -f /home/safal/store-gas/docker/docker-compose.prod.yml \
             up -d --build --remove-orphans
 
