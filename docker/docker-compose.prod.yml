@@ -11,7 +11,7 @@ services:
       - ../db-data:/var/lib/postgresql
 
   backend:
-    build: ../backend
+    build: backend
     container_name: store-gas-api
     restart: unless-stopped
     depends_on:
@@ -22,7 +22,7 @@ services:
       - "3000:3000"
 
   frontend:
-    build: ../frontend
+    build: frontend
     container_name: store-gas-client
     restart: unless-stopped
     ports:
