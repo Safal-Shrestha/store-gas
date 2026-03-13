@@ -1,0 +1,40 @@
+# Dependencies
+node_modules
+/jspm_packages
+
+# Optional npm cache files
+.npm
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pids
+*.pid
+*.seed
+*.gz
+logs
+
+# Environment variables
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# Testing and coverage
+/coverage
+/.nyc_output
+
+# Compilation/Build artifacts
+/build
+/dist
+/tmp
+
+# Editor/OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
