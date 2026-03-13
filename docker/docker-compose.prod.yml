@@ -13,7 +13,7 @@ services:
   backend:
     build: ../backend
     container_name: store-gas-api
-    restart: unless_stopped
+    restart: unless-stopped
     depends_on:
       - postgres
     env_file:
