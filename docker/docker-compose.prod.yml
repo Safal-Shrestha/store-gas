@@ -4,7 +4,7 @@ services:
     container_name: store-gas-db
     restart: unless-stopped
     volumes:
-      - pgdata:/var/lib/postgresql
+      - ../db-data:/var/lib/postgresql
       - ../backend/db/init:/docker-entrypoint-initdb.d
 
   backend:
@@ -24,6 +24,3 @@ services:
       - "8000:80"
     depends_on:
       - backend
-
-volumes:
-  pg-data:
