@@ -12,29 +12,5 @@ services:
       - postgres_data:/var/lib/postgresql
       - ../backend/db/init:/docker-entrypoint-initdb.d
 
-  backend:
-    build: ../backend
-    container_name: store-gas-api
-    depends_on:
-      - postgres
-    volumes:
-      - ../backend:/app          # live code mounting
-      - /app/node_modules        # prevent overwriting node_modules
-    command: npm start
-    ports:
-      - "3000:3000"
-    env_file:
-      - ../.env
-
-  frontend:
-    build: ../frontend
-    container_name: store-gas-client
-    volumes:
-      - ../frontend:/app          # live code mounting
-      - /app/node_modules
-    command: npm run dev -- --host
-    ports:
-      - "5173:5173"
-
 volumes:
   postgres_data:
