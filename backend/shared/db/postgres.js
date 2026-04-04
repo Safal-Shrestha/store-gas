@@ -12,4 +12,4 @@ const db = pgp({
     port: process.env.POSTGRES_PORT,
 });
 
-module.exports = { db, pgp };
+module.exports = db;
