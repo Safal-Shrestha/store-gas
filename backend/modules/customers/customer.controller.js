@@ -31,8 +31,8 @@ const createCustomer = async(req, res) => {
 
         const {name, contact} = req.body;
 
-        if (!customer) {
-            return res.status(404).json({ error: 'Customer not found' });
+        if (!name) {
+            return res.status(400).json({ error: 'Name cannot be empty' });
         }
 
         const result = await customerService.createCustomer({
