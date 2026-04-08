@@ -19,10 +19,28 @@ const createCustomer = async (data) => {
 
         return customer;
     });
+};
+
+const deactivateCustomer = async(id) => {
+    return db.tx(async (t) => {
+        const response = await customerRepo.deactivateCustomer(t, id);
+
+        return response;
+    });
+};
+
+const updateCustomer = async(data, id) => {
+    return db.tx(async(t) => {
+        const updatedCustomer = await customerRepo.updateCustomer(t, data, id);
+
+        return updateCustomer;
+    });
 }
 
 module.exports = {
     getAllCustomers,
     getCustomerById,
-    createCustomer
+    createCustomer,
+    deactivateCustomer,
+    updateCustomer
 }

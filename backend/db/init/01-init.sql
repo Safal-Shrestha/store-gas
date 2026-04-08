@@ -46,8 +46,12 @@ CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name TEXT NOT NULL,
     password TEXT NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    deleted_at TIMESTAMPTZ DEFAULT NULL
 );
+
+CREATE VIEW active_users AS SELECT * FROM users WHERE deleted_at IS NULL;
 
 CREATE TABLE IF NOT EXISTS customers (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -55,8 +59,12 @@ CREATE TABLE IF NOT EXISTS customers (
     contact BIGINT CHECK (contact >= 0),
     gas_allocated INTEGER DEFAULT 0 CHECK (gas_allocated >= 0),
     credit_balance INTEGER NOT NULL DEFAULT 0 CHECK (credit_balance >= 0),
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    deleted_at TIMESTAMPTZ DEFAULT NULL
 );
+
+CREATE VIEW active_customers AS SELECT * FROM customers WHERE deleted_at IS NULL;
 
 CREATE TABLE IF NOT EXISTS dealers (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -64,8 +72,12 @@ CREATE TABLE IF NOT EXISTS dealers (
     contact BIGINT CHECK (contact >= 0),
     type dealer_type NOT NULL,
     credit_balance INTEGER NOT NULL DEFAULT 0 CHECK (credit_balance >= 0),
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    deleted_at TIMESTAMPTZ DEFAULT NULL
 );
+
+CREATE VIEW active_dealers AS SELECT * FROM dealers WHERE deleted_at IS NULL;
 
 CREATE TABLE IF NOT EXISTS in_gas (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -201,5 +213,6 @@ CREATE TABLE IF NOT EXISTS credit_ledger (
     balance_after INTEGER NOT NULL CHECK (balance_after >= 0),
     notes TEXT,
     perfomed_by UUID REFERENCES users(id),
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );

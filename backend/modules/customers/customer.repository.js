@@ -1,27 +1,42 @@
+const dbHelper = require('../../shared/db/db.helpers');
+
 const getAllCustomers = async (db) => {
-    return db.any(
-        `SELECT * FROM customers ORDER BY created_at DESC`
-    );
+    const {query} = dbHelper.buildFindAllQuery('active_customers')
+    return db.any(query);
 };
 
 const getCustomerById = async (db, id) => {
+    const {query} = dbHelper.buildFindByColumnQuery('active_customers');
     return db.one(
-        `SELECT * FROM customers WHERE id = $1`,
+        query,
         [id]
     );
 };
 
 const createCustomer = async (db, data) => {
-  return db.one(
-    `INSERT INTO customers (name, contact)
-     VALUES ($1,$2)
-     RETURNING *`,
-    [data.name, data.contact]
-  );
+  const { query, values } = dbHelper.buildInsertQuery('customers', data);
+  return db.one(query, values);
+};
+
+const deactivateCustomer = async (db, id) => {
+    const {query} = dbHelper.buildSoftDeleteQuery('customers');
+    return db.none(query, [id]);
+}
+
+const updateCustomer = async (db, data, id) => {
+    const allowedFields = ['name', 'contact', 'gas_allocated', 'credit_balance'];
+    const {query, values} = dbHelper.buildUpdateQuery('customers', data, allowedFields);
+    values.push(id);
+    return db.one(
+        query,
+        values
+    );
 };
 
 module.exports = {
     getAllCustomers,
     getCustomerById,
-    createCustomer
+    createCustomer,
+    updateCustomer,
+    deactivateCustomer
 }
