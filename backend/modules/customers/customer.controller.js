@@ -52,7 +52,7 @@ const deactivateCustomer = async(req, res) => {
 
         const result = await customerService.deactivateCustomer(id);
 
-        res.status(204).json(result);
+        res.status(204);
     } catch(err) {
         res.status(500).json({ error: err.message});
     }

@@ -36,4 +36,4 @@ module.exports = {
     createDealer,
     deactivateDealer,
     updateDealer
-}
+};
