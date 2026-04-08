@@ -27,10 +27,7 @@ const updateCustomer = async (db, data, id) => {
     const allowedFields = ['name', 'contact', 'gas_allocated', 'credit_balance'];
     const {query, values} = dbHelper.buildUpdateQuery('customers', data, allowedFields);
     values.push(id);
-    return db.one(
-        query,
-        values
-    );
+    return db.one(query, values);
 };
 
 module.exports = {

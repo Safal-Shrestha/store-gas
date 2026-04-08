@@ -3,11 +3,11 @@ const dealerRepo = require('./dealer.repository');
 
 const getAllDealers = async () => {
     return dealerRepo.getAllDealers(db);
-}
+};
 
 const getDealerById = async (id) => {
     return dealerRepo.getDealerById(db, id);
-}
+};
 
 const createDealer = async (data) => {
     return db.tx(async (t) => {
@@ -19,10 +19,26 @@ const createDealer = async (data) => {
 
         return dealer;
     });
+};
+
+const deactivateDealer = async (id) => {
+    return db.tx(async(t) => {
+        const response = await dealerRepo.deactivateDealer(t, id);
+        return response;
+    });
+};
+
+const updateDealer = async (data, id) => {
+    return db.tx(async(t) => {
+        const updatedDealer = await dealerRepo.updateDealer(t, data, id);
+        return updatedDealer;
+    });
 }
 
 module.exports = {
     getAllDealers,
     getDealerById,
-    createDealer
+    createDealer,
+    deactivateDealer,
+    updateDealer
 }

@@ -1,27 +1,39 @@
+const dbHelper = require('../../shared/db/db.helpers');
+
 const getAllDealers = async (db) => {
-    return db.any(
-        `SELECT * FROM dealers ORDER BY created_at DESC`
-    );
+    const {query} = dbHelper.buildFindAllQuery('active_dealers');
+    return db.any(query);
 };
 
 const getDealerById = async (db, id) => {
+    const {query} = dbHelper.buildFindByColumnQuery('active_dealers');
     return db.one(
-        `SELECT * FROM dealers WHERE id=$1`,
+        query,
         [id]
     );
 };
 
 const createDealer = async (db, data) => {
-    return db.one(
-        `INSERT INTO dealers (name, contact, type)
-         VALUES ($1,$2,$3)
-         RETURNING *`,
-         [data.name, data.contact, data.type]
-    );
+    const {query, values} = dbHelper.buildInsertQuery('dealers', data);
+    return db.one(query, values);
+};
+
+const deactivateDealer = async(db, id) => {
+    const {query} = dbHelper.buildSoftDeleteQuery('dealers');
+    return db.none(query, [id]);
+};
+
+const updateDealer = async(db, data, id) => {
+    const allowedFields = ['name', 'contact', 'credit_balance'];
+    const{query, values} = dbHelper.buildUpdateQuery('dealers', data, allowedFields);
+    values.push(id);
+    return db.one(query, values);
 };
 
 module.exports = {
     getAllDealers,
     getDealerById,
-    createDealer
+    createDealer,
+    deactivateDealer,
+    updateDealer
 }
